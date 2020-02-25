@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>注册</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="fly,layui,前端社区">
+    <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
+    <link rel="stylesheet" href="/static/css/layui.css">
+    <link rel="stylesheet" href="/static/css/global.css">
+</head>
+<body>
+
+<div class="fly-header layui-bg-black">
+    <div class="layui-container">
+        <ul class="layui-nav fly-nav layui-hide-xs">
+            <li class="layui-nav-item layui-this">
+                <a href="/"><i class="iconfont icon-jiaoliu"></i>交流</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="../case/case.html"><i class="iconfont icon-iconmingxinganli"></i>案例</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="http://www.layui.com/" target="_blank"><i class="iconfont icon-ui"></i>框架</a>
+            </li>
+        </ul>
+
+        <ul class="layui-nav fly-nav-user">
+            <!-- 未登入的状态 -->
+            <li class="layui-nav-item">
+                <a class="iconfont icon-touxiang layui-hide-xs" href="user/login.html"></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="user/login.html">登入</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="user/reg.html">注册</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="layui-container fly-marginTop">
+    <div class="fly-panel fly-panel-user" pad20>
+        <div class="layui-tab layui-tab-brief" lay-filter="user">
+            <ul class="layui-tab-title">
+                <li><a href="/pages/login.html">登入</a></li>
+                <li class="layui-this">注册
+                <li>
+            </ul>
+            <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-form layui-form-pane">
+                        <div id="app">
+                            <div class="layui-form-item">
+                                <label for="L_email" class="layui-form-label">账号</label>
+                                <div class="layui-input-inline">
+                                    <input v-model="username" type="text" id="L_email" name="email" required
+                                           lay-verify="required" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="L_pass" class="layui-form-label">密码</label>
+                                <div class="layui-input-inline">
+                                    <input v-model="password" type="password" id="L_pass" name="pass" required
+                                           lay-verify="required" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="password1" class="layui-form-label">确认密码</label>
+                                <div class="layui-input-inline">
+                                    <input v-model="password1" type="password" id="password1" name="password1" required
+                                           lay-verify="required" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="account" class="layui-form-label">邮箱</label>
+                                <div class="layui-input-inline">
+                                    <input v-model="account" type="text" id="account" name="account" required lay-verify="required"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="city" class="layui-form-label">来自</label>
+                                <div class="layui-input-inline">
+                                    <input v-model="city" type="text" id="city" name="city" required lay-verify="required"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="birthday" class="layui-form-label">生日</label>
+                                <div class="layui-input-inline">
+                                    <input v-model="birthday" type="date" id="birthday" name="birthday" required lay-verify="required"
+                                           autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <p style="color: red">{{ errorMessage }}</p>
+                            <div class="layui-form-item">
+                                <button class="layui-btn" @click="regist">立即注册</button>
+                                <span style="padding-left:20px;">
+                  <a href="forget.html">忘记密码？</a>
+                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="fly-footer">
+    <p><a href="http://fly.layui.com/" target="_blank">Fly社区</a> 2017 &copy; <a href="http://www.layui.com/"
+                                                                                target="_blank">layui.com 出品</a></p>
+    <p>
+        <a href="http://fly.layui.com/jie/3147/" target="_blank">付费计划</a>
+        <a href="http://www.layui.com/template/fly/" target="_blank">获取Fly社区模版</a>
+        <a href="http://fly.layui.com/jie/2461/" target="_blank">微信公众号</a>
+    </p>
+</div>
+
+<script src="/static/js/layui.js"></script>
+<script src="/static/js/vue.js"></script>
+<script src="/static/js/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            username: "",
+            password: "",
+            password1: "",
+            account: "",
+            city: "",
+            birthday: "",
+            errorMessage: ""
+        },
+        methods: {
+            regist() {
+                var that = this;
+                axios.post("../user/regist", {
+                    username: that.username,
+                    password: that.password,
+                    password1: that.password1,
+                    account: that.account,
+                    birthday: that.birthday,
+                    city: that.city
+                })
+                .then(function(response){
+                    console.log(response);
+                    if (response.data.success) {
+                        window.location.href = 'login.html';
+                    } else {
+                        that.errorMessage = response.data.errorMessage;
+                    }
+                });
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

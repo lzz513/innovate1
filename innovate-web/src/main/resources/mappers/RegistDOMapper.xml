@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mju.lzz.mapper.RegistDOMapper">
+    <sql id="Base_Column_List">
+        id, name, captain, gid, doc
+    </sql>
+    <resultMap id="regist" type="mju.lzz.beans.Regist">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="captain" column="captain"/>
+        <result property="gid" column="gid"/>
+        <result property="doc" column="doc"/>
+    </resultMap>
+
+    <select id="query" parameterType="mju.lzz.beans.Regist" resultMap="regist">
+        select
+        <include refid="Base_Column_List"/>
+        from regist
+        <where>
+            <trim prefixOverrides="and">
+                <if test="id != null">
+                    and id = #{id, jdbcType=INTEGER}
+                </if>
+                <if test="name != null and name != ''">
+                    and name = #{name, jdbcType=VARCHAR}
+                </if>
+                <if test="captain != null and captain != ''">
+                    and captain = #{captain, jdbcType=VARCHAR}
+                </if>
+                <if test="gid != null">
+                    and gid = #{gid, jdbcType=INTEGER}
+                </if>
+                <if test="doc != null and doc !=''">
+                    and doc = #{doc, jdbcType=VARCHAR}
+                </if>
+            </trim>
+        </where>
+    </select>
+
+    <insert id="saveRegist" parameterType="mju.lzz.beans.Regist">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>        insert into regist
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                name,
+            </if>
+            <if test="captain != null and captain !=''">
+                captain,
+            </if>
+            <if test="gid != null">
+                gid,
+            </if>
+            <if test="doc != null and doc !=''">
+                doc
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" prefixOverrides=",">
+            <if test="name != null and name != ''">
+                #{name, jdbcType=VARCHAR}
+            </if>
+            <if test="captain != null and captain != ''">
+                , #{captain, jdbcType=VARCHAR}
+            </if>
+            <if test="gid != null">
+                , #{gid, jdbcType=INTEGER}
+            </if>
+            <if test="doc != null and doc !=''">
+                , #{doc, jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+
+</mapper>

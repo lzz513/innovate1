@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>“互联网＋”大学生创新创业大赛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/mian.css">
+    <link rel="stylesheet" href="/static/css/layui.css">
+    <style type="text/css">
+
+        .file {
+            position: relative;
+            display: inline-block;
+            background: #D0EEFF;
+            border: 1px solid #99D3F5;
+            border-radius: 4px;
+            padding: 4px 12px;
+            overflow: hidden;
+            color: #1E88C7;
+            text-decoration: none;
+            text-indent: 0;
+            line-height: 20px;
+        }
+        .file input {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+        }
+        .file:hover {
+            background: #AADFFD;
+            border-color: #78C3F3;
+            color: #004974;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body class="lay-blog">
+<div class="header">
+    <div class="header-wrap">
+        <h1 class="logo pull-left">
+            <a href="index.html">
+                <img src="/static/img/logo.png" alt="" class="logo-img">
+                <img src="/static/img/logo-text.png" alt="" class="logo-text">
+            </a>
+        </h1>
+        <form class="layui-form blog-seach pull-left" action="">
+            <div class="layui-form-item blog-sewrap">
+                <div class="layui-input-block blog-sebox">
+                    <i class="layui-icon">&#xe615;</i>
+                    <input type="text" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </form>
+        <div class="blog-nav pull-right">
+            <ul class="layui-nav pull-left">
+                <li class="layui-nav-item layui-this"><a href="index.html">首页</a></li>
+                <li class="layui-nav-item"><a href="message.html">留言</a></li>
+                <li class="layui-nav-item"><a href="about.html">关于</a></li>
+            </ul>
+            <a href="#" class="personal pull-left">
+                <i class="layui-icon layui-icon-username"></i>
+            </a>
+        </div>
+        <div class="mobile-nav pull-right" id="mobile-nav">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-more">&#xe645;</i>
+            </a>
+        </div>
+    </div>
+    <ul class="pop-nav" id="pop-nav">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="message.html">留言</a></li>
+        <li><a href="about.html">关于</a></li>
+    </ul>
+</div>
+<div class="container-wrap" id="app">
+    <div class="container">
+        <div class="contar-wrap">
+            <div class="item">
+                <div align="center">
+                    <img :src="dirUser.headPath" style="align-content: center; text-align: center; border-radius: 100px"
+                         width="100px" height="100px">
+                </div>
+                <h1 style="text-align: center">{{dirUser.username}}</h1>
+                <div align="center">
+                    <i class="layui-icon ">&#xe637;</i>
+                    <span style="color: grey">{{dirUser.birthday}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <i class="layui-icon ">&#xe612;</i>
+                    <span style="color: grey">来自{{dirUser.city}}</span>
+                </div>
+                <p  align="center" >
+                    <i class="layui-icon ">&#xe64c;</i>
+                    <span style="color: grey; ">{{dirUser.account}}</span>
+                </p>
+                <div align="center" v-if="my.username == dirUser.username">
+                    <a style="margin-bottom: 30px; margin-top: 20px" href="javascript:;" class="file">
+                        替换头像
+                        <i class="layui-icon">&#xe67c;</i>
+                        <input type="file" name="" id="">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<div class="footer">
+    <p>
+        <span>&copy; 2018</span>
+        <span><a href="http://www.layui.com" target="_blank">layui.com</a></span>
+        <span>MIT license</span>
+    </p>
+    <p><span>人生就是一场修行</span></p>
+
+</div>
+
+<script src="/static/js/layui.js"></script>
+<script src="/static/js/vue.js"></script>
+<script src="/static/js/axios.min.js"></script>
+<script src="/static/js/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="/static/js/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="/static/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            my: {},
+            dirUser:{}
+        },
+        mounted: function () {
+            var that = this;
+            var url = "/user/findById?id="+this.getParam("id");
+            axios.get(url)
+            .then(function (response) {
+                console.log(response);
+                that.dirUser = response.data.data;
+            })
+            axios.get("/user/getMyself")
+            .then(function (response) {
+                that.my = response.data.data;
+            })
+        },
+        methods: {
+            getParam(variable)
+            {
+                var query = window.location.search.substring(1);
+                var vars = query.split("&");
+                for (var i=0;i<vars.length;i++) {
+                    var pair = vars[i].split("=");
+                    if(pair[0] == variable){return pair[1];}
+                }
+                return(false);
+            },
+        }
+    })
+</script>
+</body>
+</html>

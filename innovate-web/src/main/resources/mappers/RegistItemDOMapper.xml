@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mju.lzz.mapper.RegistItemDOMapper">
+
+    <sql id="Base_Column_List">
+        id, gid, uid, username, isCaptain, isAgree, create_time
+    </sql>
+
+    <resultMap id="registItem" type="mju.lzz.beans.RegistItem">
+        <id property="id" column="id"/>
+        <result property="gid" column="gid"/>
+        <result property="uid" column="uid"/>
+        <result property="username" column="username"/>
+        <result property="isCaptain" column="isCaptain"/>
+        <result property="isAgree" column="isAgree"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="query" resultMap="registItem" parameterType="mju.lzz.beans.RegistItem">
+        select
+        <include refid="Base_Column_List"/>
+        from regist_item
+        <where>
+            <trim prefixOverrides="and" >
+                <if test="id != null">
+                    id != #{id, jdbcType=INTEGER}
+                </if>
+                <if test="gid != null">
+                    and gid = #{gid, jdbcType=INTEGER}
+                </if>
+                <if test="uid != null">
+                    and uid = #{uid, jdbcType=INTEGER}
+                </if>
+                <if test="username != null and username != ''">
+                    and username = #{username, jdbcType=VARCHAR}
+                </if>
+                <if test="isCaptain != null">
+                    and isCaptain = #{isCaptain, jdbcType=INTEGER}
+                </if>
+                <if test="isAgree != null">
+                    and isAgree = #{isAgree, jdbcType=INTEGER}
+                </if>
+            </trim>
+        </where>
+    </select>
+
+    <select id="queryByGid" parameterType="long" resultMap="registItem">
+        select * from regist_item where gid = #{gid}
+    </select>
+
+    <insert id="saveItem" parameterType="mju.lzz.beans.RegistItem">
+        insert into regist_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="gid != null">
+                gid,
+            </if>
+            <if test="uid != null">
+                uid,
+            </if>
+            <if test="username != null and username != ''">
+                username,
+            </if>
+            <if test="isCaptain != null">
+                isCaptain
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" prefixOverrides=",">
+            <if test="gid != null">
+                #{gid, jdbcType=INTEGER}
+            </if>
+            <if test="uid != null">
+                , #{uid, jdbcType=INTEGER}
+            </if>
+            <if test="username != null and username != ''">
+                , #{username, jdbcType=VARCHAR}
+            </if>
+            <if test="isCaptain != null">
+                , #{isCaptain, jdbcType=INTEGER}
+            </if>
+            <if test="isAgree != null">
+                , #{isAgree, jdbcType=INTEGER}
+            </if>
+            <if test="createTime != null">
+                , #{createrTime, jdbcType=TIMESTAMP}
+            </if>
+        </trim>
+    </insert>
+
+</mapper>
