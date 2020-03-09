@@ -1,6 +1,7 @@
 package mju.lzz.response;
 
 import lombok.Data;
+import mju.lzz.beans.Comment;
 import mju.lzz.beans.Game;
 import mju.lzz.beans.User;
 
@@ -14,4 +15,5 @@ import mju.lzz.beans.User;
 public class GameResponse {
 	private Game game;
 	private User user;
+	private Comment comment;
 }

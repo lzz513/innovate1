@@ -57,9 +57,9 @@
         </form>
         <div class="blog-nav pull-right">
             <ul class="layui-nav pull-left">
-                <li class="layui-nav-item layui-this"><a href="index.html">首页</a></li>
-                <li class="layui-nav-item"><a href="message.html">留言</a></li>
-                <li class="layui-nav-item"><a href="about.html">关于</a></li>
+                <li class="layui-nav-item "><a href="index.html">首页</a></li>
+                <li class="layui-nav-item layui-this"><a href="./user.html?id=">我的</a></li>
+                <li class="layui-nav-item "><a href="message.html">报名情况</a></li>
             </ul>
             <a href="#" class="personal pull-left">
                 <i class="layui-icon layui-icon-username"></i>
@@ -104,6 +104,29 @@
                     </a>
                 </div>
             </div>
+            <div class="item" v-if="messages.length > 0">
+                <div v-for="message in messages">
+                    <p>
+                        &nbsp;&nbsp;{{message.content}}
+                    <span v-if="message.registItem.isAgree == 1" style="color: #1c7430">
+                        已接受邀请
+                    </span>
+                        <span style="color: red" v-if="message.registItem.isAgree == 2">
+                        已接拒绝邀请
+                    </span>
+                    </p>
+                    <div v-if="message.registItem.isAgree == '0'">
+                        <a style="margin-left: 10px" class="layui-btn layui-btn-normal"
+                           :href="'/pages/gameDetail.html?gid='+message.registItem.gid">查看比赛情况</a>
+                        <button class="layui-btn" @click="agree(message)">接受邀请</button>
+                        <button class="layui-btn layui-btn-danger" @click="not(message)">拒绝邀请</button>
+                    </div>
+                    <div>
+                        <span style="float: right">{{message.createTime}}&nbsp;&nbsp;</span>
+                    </div>
+                    <hr>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -136,7 +159,8 @@
         el: "#app",
         data: {
             my: {},
-            dirUser:{}
+            dirUser:{},
+            messages:{}
         },
         mounted: function () {
             var that = this;
@@ -150,6 +174,10 @@
             .then(function (response) {
                 that.my = response.data.data;
             })
+            axios.get("/message/get")
+            .then(function (response) {
+                that.messages = response.data.data;
+            })
         },
         methods: {
             getParam(variable)
@@ -162,6 +190,34 @@
                 }
                 return(false);
             },
+            agree(message){
+                var param = "riid="+message.registItem.id
+                    +"&gid="+message.registItem.gid
+                    +"&rid="+message.registItem.rid;
+                axios.post("/registItem/agree", param)
+                .then(function (response) {
+                    console.log(response);
+                    if (response.data.success) {
+                        location.reload();
+                    } else {
+                        alert(response.data.errorMessage);
+                    }
+                })
+            },
+            not(message) {
+                var param = "riid=" + message.registItem.id
+                    + "&gid=" + message.registItem.gid
+                    + "&rid=" + message.registItem.rid;
+                axios.post("/registItem/not", param)
+                    .then(function (response) {
+                        console.log(response);
+                        if (response.data.success) {
+                            location.reload();
+                        } else {
+                            alert(response.data.errorMessage);
+                        }
+                    })
+            }
         }
     })
 </script>

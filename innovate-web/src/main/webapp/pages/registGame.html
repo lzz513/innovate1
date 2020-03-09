@@ -268,10 +268,16 @@
                 +"&uid="+this.user.id
                 +"&name="+this.tname
                 +"&doc="+doc
-                +"&ids="+ids;
-                axios.post("/regist/add", param)
+                +"&ids="+ids
+                +"&gameName="+this.game.name;
+                axios.post("/regist/add", param )
                 .then(function(response){
                    console.log(response);
+                   if (response.data.success) {
+                       alert("报名成功");
+                   } else {
+                       alert(response.data.errorMessage);
+                   }
                 });
             }
         }

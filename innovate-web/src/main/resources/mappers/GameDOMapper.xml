@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mju.lzz.mapper.GameDOMapper">
     <sql id="Base_Column_list">
-        id, name, start_time, end_time, creator_id, description, creater_time, photo
+        id, name, start_time, end_time, creator_id, description, creater_time, photo, game_name
     </sql>
 
     <sql id="Base_Where">
@@ -46,6 +46,7 @@
         <result property="description" column="description"/>
         <result property="createrTime" column="creater_time"/>
         <result property="photo" column="photo"/>
+        <result property="gameName" column="game_name"/>
     </resultMap>
 
 
@@ -94,7 +95,10 @@
                 creater_time,
             </if>
             <if test="photo != null and photo !=''">
-                photo
+                photo,
+            </if>
+            <if test="gameName != null and gameName != ''">
+                game_name,
             </if>
         </trim>
         <trim prefix="values(" suffix=")" suffixOverrides=",">
@@ -121,6 +125,9 @@
             </if>
             <if test="photo != null and photo !=''">
                 #{photo,jdbcType=VARCHAR}
+            </if>
+            <if test="gameNam != null and gameName != ''">
+                #{gameName, jdbcType=VARCHAR}
             </if>
         </trim>
     </insert>

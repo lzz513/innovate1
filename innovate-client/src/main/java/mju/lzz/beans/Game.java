@@ -28,8 +28,9 @@ public class Game {
 	private String description;
 	private Date createrTime;
 	private String photo;
+	private String gameName;
 
-	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 	public Date getCreaterTime() {
 		return createrTime;
 	}

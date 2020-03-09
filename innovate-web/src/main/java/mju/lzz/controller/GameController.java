@@ -5,6 +5,7 @@ import mju.lzz.beans.Game;
 import mju.lzz.beans.User;
 import mju.lzz.enums.ErrorCodeEnum;
 import mju.lzz.exception.InnovateCommonException;
+import mju.lzz.manager.CommentManager;
 import mju.lzz.manager.GameManager;
 import mju.lzz.model.CommonResult;
 import mju.lzz.response.GameListResponse;
@@ -42,10 +43,13 @@ import java.util.UUID;
 public class GameController {
 
 	@Autowired
-	GameManager gameManager;
+	private GameManager gameManager;
 
 	@Autowired
-	HostHolder holder;
+	private CommentManager commentManager;
+
+	@Autowired
+	private HostHolder holder;
 
 	@RequestMapping(value = "addGame", method = RequestMethod.POST)
 	public CommonResult<String> addGame(String name, String startTime, String endTime
@@ -85,7 +89,11 @@ public class GameController {
 	public CommonResult<GameListResponse>  gameList() {
 		GameListResponse response = new GameListResponse();
 		response.setUser(holder.get());
-		response.setGameList(gameManager.queryAll());
+		try {
+			response.setGameList(gameManager.queryAll());
+		} catch (Exception e) {
+			log.info("", e);
+		}
 		return CommonResult.successResult(response);
 	}
 
@@ -103,5 +111,6 @@ public class GameController {
 		response.setUser(holder.get());
 		return CommonResult.successResult(response);
 	}
+
 
 }

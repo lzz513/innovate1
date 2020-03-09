@@ -27,8 +27,8 @@
         <div class="blog-nav pull-right">
             <ul class="layui-nav pull-left">
                 <li class="layui-nav-item layui-this"><a href="index.html">首页</a></li>
+                <li class="layui-nav-item"><a href="message.html">消息</a></li>
                 <li class="layui-nav-item"><a href="./user.html?id=">我的</a></li>
-                <li class="layui-nav-item"><a href="./myRegist.html">报名情况</a></li>
             </ul>
             <a href="#" class="personal pull-left">
                 <i class="layui-icon layui-icon-username"></i>
@@ -93,13 +93,13 @@
         beforeCreate: function (){
             var that = this;
             axios.get("/game/gameList")
-            .then(function (response) {
-                console.log(response);
-                that.games = response.data.data.gameList;
-                that.username = response.data.data.user.username;
-                that.uid = response.data.data.user.id;
-                console.log(that.username);
-            });
+                .then(function (response) {
+                    console.log(response);
+                    that.games = response.data.data.gameList;
+                    that.username = response.data.data.user.username;
+                    that.uid = response.data.data.user.id;
+                    console.log(that.username);
+                });
         },
         methods: {
 

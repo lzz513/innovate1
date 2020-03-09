@@ -22,4 +22,6 @@ public class Regist {
 	private String captain;
 	private Long gid;
 	private String doc;
+	private String gameName;
+	private Integer status;
 }

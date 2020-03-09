@@ -15,5 +15,5 @@ import java.util.List;
 @Data
 public class RegistListResponse {
 	private User user;
-	private List<Regist> registList;
+	private List<RegistVO> registList;
 }

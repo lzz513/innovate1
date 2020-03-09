@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mju.lzz.mapper.RegistDOMapper">
     <sql id="Base_Column_List">
-        id, name, captain, gid, doc
+        id, name, captain, gid, doc,game_name, status
     </sql>
     <resultMap id="regist" type="mju.lzz.beans.Regist">
         <id property="id" column="id"/>
@@ -11,6 +11,8 @@
         <result property="captain" column="captain"/>
         <result property="gid" column="gid"/>
         <result property="doc" column="doc"/>
+        <result property="gameName" column="game_Name"/>
+        <result property="status" column="status"/>
     </resultMap>
 
     <select id="query" parameterType="mju.lzz.beans.Regist" resultMap="regist">
@@ -53,7 +55,13 @@
                 gid,
             </if>
             <if test="doc != null and doc !=''">
-                doc
+                doc,
+            </if>
+            <if test="gameName != null and gameName != ''">
+                game_name,
+            </if>
+            <if test="status != null">
+                status
             </if>
         </trim>
         <trim prefix="values(" suffix=")" prefixOverrides=",">
@@ -69,7 +77,19 @@
             <if test="doc != null and doc !=''">
                 , #{doc, jdbcType=VARCHAR}
             </if>
+            <if test="gameName != null and gameName !=''">
+                , #{gameName , jdbcType=VARCHAR}
+            </if>
+            <if test="status != null">
+                , #{status, jdbcType=INTEGER}
+            </if>
         </trim>
     </insert>
+
+    <update id="updateStatus" parameterType="mju.lzz.beans.Regist">
+        update regist
+        set status = #{status}
+        where id = #{id}
+    </update>
 
 </mapper>

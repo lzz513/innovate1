@@ -7,4 +7,5 @@ import java.util.List;
 public interface RegistDOMapper {
 	List<Regist> query(Regist query);
 	int saveRegist(Regist query);
+	int updateStatus(Regist regist);
 }

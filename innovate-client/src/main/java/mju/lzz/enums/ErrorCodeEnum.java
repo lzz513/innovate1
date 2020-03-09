@@ -14,8 +14,9 @@ public enum ErrorCodeEnum {
 	INSERT_ERROR(5, "添加数据失败"),
 	FILE_EMPTY(6, "上传文件为空"),
 	ADD_FAIL(7, "添加失败！"),
-	USERNAME_EXSTS(8, "用户名已被注册");
-
+	USERNAME_EXSTS(8, "用户名已被注册"),
+	TRANSFOR_ERR(9,"文本转化错误"),
+	ALREADLY_REGIST(10, "您不能重复报名");
 
 	private int errorCode;
 	private String message;

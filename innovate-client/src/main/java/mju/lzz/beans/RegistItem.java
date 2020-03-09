@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @program: innovate
@@ -21,8 +22,12 @@ public class RegistItem {
 	private Long id;
 	private Long uid;
 	private Long gid;
+	private Long rid;
+	private Long fromId;
+	private String fromName;
 	private String username;
+	private String gameName;
 	private Integer isCaptain;
 	private Integer isAgree;
-	private LocalDateTime createrTime;
+	private Date createTime;
 }
