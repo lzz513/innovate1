@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>“互联网＋”大学生创新创业大赛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/static/css/layui.css">
+    <link rel="stylesheet" href="/static/css/mian.css">
+</head>
+<body class="lay-blog">
+<div class="header">
+    <div class="header-wrap">
+        <h1 class="logo pull-left">
+            <a href="index.html">
+                <img src="/static/img/logo.png" alt="" class="logo-img">
+                <img src="/static/img/logo-text.png" alt="" class="logo-text">
+            </a>
+        </h1>
+        <form class="layui-form blog-seach pull-left" action="">
+            <div class="layui-form-item blog-sewrap">
+                <div class="layui-input-block blog-sebox">
+                    <i class="layui-icon">&#xe615;</i>
+                    <input type="text" name="title" lay-verify="title" autocomplete="off"  class="layui-input">
+                </div>
+            </div>
+        </form>
+        <div class="blog-nav pull-right">
+            <ul class="layui-nav pull-left">
+                <li class="layui-nav-item "><a href="index.html">首页</a></li>
+                <li class="layui-nav-item"><a href="./user.html?id=">我的</a></li>
+                <li class="layui-nav-item layui-this"><a href="message.html">报名情况</a></li>
+            </ul>
+            <a href="#" class="personal pull-left">
+                <i class="layui-icon layui-icon-username"></i>
+            </a>
+        </div>
+        <div class="mobile-nav pull-right" id="mobile-nav">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-more">&#xe645;</i>
+            </a>
+        </div>
+    </div>
+    <ul class="pop-nav" id="pop-nav">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="message.html">留言</a></li>
+        <li><a href="about.html">关于</a></li>
+    </ul>
+</div>
+<div class="container-wrap">
+    <div class="container" id="app">
+        <div class="contar-wrap">
+            <div class="item" >
+                <h3 align="center">报名的比赛</h3>
+                <table class="layui-table" >
+
+                    <thead>
+                    <tr>
+                        <th >活动名</th>
+                        <th>队伍名</th>
+                        <th>队长</th>
+                        <th>报名状态</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="regist in regists">
+                        <td>{{regist.regist.gameName}}</td>
+                        <td>{{regist.regist.name}}</td>
+                        <td>{{regist.regist.captain}}</td>
+                        <td>{{regist.status}}</td>
+                        <td>
+                            <button class="layui-btn layui-btn-sm"
+                                    data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+                                    @click="findMate(regist)">查看队友
+                            </button>
+                        </td>
+                    <tr>
+                    </tbody>
+                </table>
+                <p></p>
+            </div>
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">队友列表</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div id="addGame">
+                        <div class="modal-body">
+                            <table class="layui-table">
+                                <colgroup>
+                                    <col width="150">
+                                    <col width="150">
+                                    <col width="200">
+                                    <col>
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th>姓名</th>
+                                    <th>邮箱</th>
+                                    <th>状态</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="mate in mates">
+                                    <td>{{mate.name}}</td>
+                                    <td>{{mate.email}}</td>
+                                    <td>
+                                        {{mate.status}}
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <p>
+        <span>&copy; 2018</span>
+        <span><a href="http://www.layui.com" target="_blank">layui.com</a></span>
+        <span>MIT license</span>
+    </p>
+    <p><span>人生就是一场修行</span></p>
+</div>
+<script src="/static/js/layui.js"></script>
+<script src="/static/js/vue.js"></script>
+<script src="/static/js/axios.min.js"></script>
+<script src="/static/js/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="/static/js/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="/static/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            regists: [],
+            mates: []
+        },
+        mounted: function (){
+            var that = this;
+            axios.get("/regist/myRegist")
+            .then(function (response) {
+                console.log(response);
+                that.regists = response.data.data.registList;
+            })
+        },
+        methods: {
+            findMate(item) {
+                var that = this;
+                var id = item.id;
+                var url = "/registItem/findByRid?rid="+item.regist.id;
+                axios.get(url)
+                .then(function (res) {
+                    console.log(res);
+                    that.mates = res.data.data;
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mju.lzz.mapper.RegistItemDOMapper">
+
+    <sql id="Base_Column_List">
+        id, gid, uid, username, isCaptain, isAgree, create_time, from_id, from_name, game_name, rid
+    </sql>
+
+    <resultMap id="registItem" type="mju.lzz.beans.RegistItem">
+        <id property="id" column="id"/>
+        <result property="gid" column="gid"/>
+        <result property="uid" column="uid"/>
+        <result property="username" column="username"/>
+        <result property="isCaptain" column="isCaptain"/>
+        <result property="isAgree" column="isAgree"/>
+        <result property="createTime" column="create_time"/>
+        <result property="fromId" column="from_id"/>
+        <result property="fromName" column="from_name"/>
+        <result property="gameName" column="game_name"/>
+    </resultMap>
+
+    <select id="query" resultMap="registItem" parameterType="mju.lzz.beans.RegistItem">
+        select
+        <include refid="Base_Column_List"/>
+        from regist_item
+        <where>
+            <trim prefixOverrides="and" >
+                <if test="id != null">
+                    id != #{id, jdbcType=INTEGER}
+                </if>
+                <if test="gid != null">
+                    and gid = #{gid, jdbcType=INTEGER}
+                </if>
+                <if test="uid != null">
+                    and uid = #{uid, jdbcType=INTEGER}
+                </if>
+                <if test="username != null and username != ''">
+                    and username = #{username, jdbcType=VARCHAR}
+                </if>
+                <if test="isCaptain != null">
+                    and isCaptain = #{isCaptain, jdbcType=INTEGER}
+                </if>
+                <if test="isAgree != null">
+                    and isAgree = #{isAgree, jdbcType=INTEGER}
+                </if>
+                <if test="rid != null">
+                    and rid = #{rid, jdbcType=INTEGER}
+                </if>
+            </trim>
+        </where>
+    </select>
+
+    <select id="queryByGid" parameterType="long" resultMap="registItem">
+        select * from regist_item where gid = #{gid}
+    </select>
+
+    <select id="countByRid" parameterType="mju.lzz.beans.RegistItem" resultType="int">
+        select count(*)
+        from regist_item
+        where rid = #{rid, jdbcType=INTEGER}
+        <if test="isAgree != null">
+            and isAgree = #{isAgree, jdbcType=INTEGER}
+        </if>
+    </select>
+    <insert id="saveItem" parameterType="mju.lzz.beans.RegistItem">
+        insert into regist_item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="gid != null">
+                gid,
+            </if>
+            <if test="uid != null">
+                uid,
+            </if>
+            <if test="username != null and username != ''">
+                username,
+            </if>
+            <if test="isCaptain != null">
+                isCaptain,
+            </if>
+            <if test="isAgree != null">
+                isAgree,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="fromName != null">
+                from_name,
+            </if>
+            <if test="fromId != null">
+                from_id,
+            </if>
+            <if test="gameName != null">
+                game_name,
+            </if>
+            <if test="rid != null">
+                rid
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" prefixOverrides=",">
+            <if test="gid != null">
+                #{gid, jdbcType=INTEGER}
+            </if>
+            <if test="uid != null">
+                , #{uid, jdbcType=INTEGER}
+            </if>
+            <if test="username != null and username != ''">
+                , #{username, jdbcType=VARCHAR}
+            </if>
+            <if test="isCaptain != null">
+                , #{isCaptain, jdbcType=INTEGER}
+            </if>
+            <if test="isAgree != null">
+                , #{isAgree, jdbcType=INTEGER}
+            </if>
+            <if test="createTime != null">
+                , #{createTime, jdbcType=TIMESTAMP}
+            </if>
+            <if test="fromName != null">
+                , #{fromName, jdbcType=VARCHAR}
+            </if>
+            <if test="fromId != null">
+                , #{fromId, jdbcType=INTEGER}
+            </if>
+            <if test="gameName != null">
+                , #{gameName, jdbcType=VARCHAR}
+            </if>
+            <if test="rid != null">
+                , #{rid, jdbcType=INTEGER}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="agree" parameterType="long">
+        update regist_item
+        set isAgree = 1
+        where id = #{riid}
+        and isAgree = 0
+    </update>
+    <update id="notAgree" parameterType="mju.lzz.beans.RegistItem">
+        update regist_item
+        set isAgree = 2
+        where gid=#{gid, jdbcType=INTEGER}
+        and uid = #{uid, jdbcType=INTEGER}
+        and isAgree = 0
+    </update>
+    <update id="not" parameterType="long">
+        update regist_item
+        set isAgree =  2
+        where id = #{riid}
+        and isAgree = 0
+    </update>
+</mapper>

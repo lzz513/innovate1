@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mju.lzz.mapper.UserDOMapper">
+
+    <resultMap id="user" type="mju.lzz.beans.User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="sid" column="sid"/>
+        <result property="status" column="status"/>
+        <result property="account" column="account"/>
+        <result property="headPath" column="head_path"/>
+        <result property="birthday" column="birthday"/>
+        <result property="city" column="city"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, username, password, status, account, sid, head_path, birthday, city
+    </sql>
+
+    <sql id="Base_Where">
+        <where>
+            <trim prefixOverrides="and">
+                <if test="id != null">
+                    and id = #{id, jdbcType=INTEGER}
+                </if>
+                <if test="username != null">
+                    and username = #{username, jdbcType=VARCHAR}
+                </if>
+                <if test="status != null">
+                    and status = #{status, jdbcType=TINYINT}
+                </if>
+                <if test="account != null">
+                    and account = #{account, jdbcType=VARCHAR}
+                </if>
+                <if test="sid != null">
+                    and sid = #{sid, jdbcType=VARCHAR}
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <select id="queryByName" parameterType="string" resultMap="user">
+        select
+        *
+        from users
+        where username like #{username}
+    </select>
+
+    <select id="query" parameterType="mju.lzz.beans.User" resultMap="user">
+        select
+        <include refid="Base_Column_List"/>
+        from users
+        <include refid="Base_Where"/>
+    </select>
+
+    <insert id="saveUser" parameterType="mju.lzz.beans.User" >
+        insert into users
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="username != null and username != ''">
+                username,
+            </if>
+            <if test="password != null and password != ''">
+                password,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="account != null and account != ''">
+                account,
+            </if>
+            <if test="headPath != null and password != ''">
+                head_path,
+            </if>
+            <if test="sid != null">
+                sid,
+            </if>
+            <if test="city != null and city != ''">
+                city,
+            </if>
+            <if test="birthday != null and birthday != ''">
+                birthday,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id, jdbcType=INTEGER},
+            </if>
+            <if test="username != null and username != ''">
+                #{username, jdbcType=VARCHAR},
+            </if>
+            <if test="password != null and password != ''">
+                #{password, jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status, jdbcType=TINYINT},
+            </if>
+            <if test="account != null and account != ''">
+                #{account, jdbcType=VARCHAR},
+            </if>
+            <if test="headPath != null and headPath != ''">
+                #{headPath, jdbcType=VARCHAR},
+            </if>
+            <if test="sid != null">
+                #{sid, jdbcType=TINYINT},
+            </if>
+            <if test="city != null and city != ''">
+                #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null and birthday != ''">
+                #{birthday, jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+</mapper>

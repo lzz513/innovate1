@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mju.lzz.mapper.CommentDOMapper">
+
+    <resultMap id="comment" type="mju.lzz.beans.Comment">
+        <id property="id" column="id"/>
+        <result property="uid" column="uid"/>
+        <result property="gid" column="gid"/>
+        <result property="toId" column="to_id"/>
+        <result property="content" column="content"/>
+        <result property="createTime" column="create_time"/>
+        <result property="username" column="username"/>
+    </resultMap>
+
+    <sql id="Base_Clumn">
+        id, uid, gid, to_id, content, create_time, username
+    </sql>
+
+    <select id="query" resultMap="comment" parameterType="mju.lzz.beans.Comment">
+        select
+        <include refid="Base_Clumn"/>
+        from comment
+        <where>
+            <trim prefixOverrides="and">
+                <if test="id != null">
+                    id = #{id, jdbcType=INTEGER}
+                </if>
+                <if test="uid != null">
+                    and uid = #{uid,jdbcType=INTEGER }
+                </if>
+                <if test="gid != null">
+                    and gid = #{gid, jdbcType=INTEGER}
+                </if>
+            </trim>
+        </where>
+    </select>
+
+    <insert id="saveComment" parameterType="mju.lzz.beans.Comment">
+        insert into comment(uid, gid, to_id, content, create_time, username)
+        values(#{uid}, #{gid}, #{toId}, #{content}, #{createTime}, #{username})
+    </insert>
+
+</mapper>

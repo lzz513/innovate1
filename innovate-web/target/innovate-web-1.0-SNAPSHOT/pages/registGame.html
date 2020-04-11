@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>“互联网＋”大学生创新创业大赛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/mian.css">
+    <link rel="stylesheet" href="/static/css/layui.css">
+</head>
+<body class="lay-blog">
+<div class="header">
+    <div class="header-wrap">
+        <h1 class="logo pull-left">
+            <a href="index.html">
+                <img src="/static/img/logo.png" alt="" class="logo-img">
+                <img src="/static/img/logo-text.png" alt="" class="logo-text">
+            </a>
+        </h1>
+        <form class="layui-form blog-seach pull-left" action="">
+            <div class="layui-form-item blog-sewrap">
+                <div class="layui-input-block blog-sebox">
+                    <i class="layui-icon">&#xe615;</i>
+                    <input type="text" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </form>
+        <div class="blog-nav pull-right">
+            <ul class="layui-nav pull-left">
+                <li class="layui-nav-item layui-this"><a href="index.html">首页</a></li>
+                <li class="layui-nav-item"><a href="message.html">留言</a></li>
+                <li class="layui-nav-item"><a href="about.html">关于</a></li>
+            </ul>
+            <a href="#" class="personal pull-left">
+                <i class="layui-icon layui-icon-username"></i>
+            </a>
+        </div>
+        <div class="mobile-nav pull-right" id="mobile-nav">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-more">&#xe645;</i>
+            </a>
+        </div>
+    </div>
+    <ul class="pop-nav" id="pop-nav">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="message.html">留言</a></li>
+        <li><a href="about.html">关于</a></li>
+    </ul>
+</div>
+<div class="container-wrap" id="app">
+    <div class="container">
+        <div class="contar-wrap">
+
+            <div class="item" style="margin-bottom: 30px">
+                <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0; margin-left: 10px">
+                    <div class="layui-tab-item layui-show">
+                        <div class="layui-form layui-form-pane">
+                            <div class="layui-form-item">
+                                <label for="gname" class="layui-form-label">赛事名</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="gname"  name="name" readonly v-model="game.name"
+                                           class="layui-input" value="first">
+
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="name" class="layui-form-label">队伍名</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="name" name="name" required v-model="tname"
+                                           lay-verify="required" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <select lay-ignore v-model="select">
+                                    <option value="0">姓名查找</option>
+                                    <option value="1">学号查找</option>
+                                </select>
+                                <input type="text" v-model="find">
+                                <button class="layui-btn layui-btn-sm"
+                                        data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+                                        @click="findMate">查找队友
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div v-if="mates.length > 0">
+                    <h5 style="text-align: center">已添加队友列表</h5>
+                    <table class="layui-table" width="500">
+                        <colgroup>
+                            <col width="150">
+                            <col width="200">
+                            <col>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>姓名</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="mate in mates">
+                            <td>{{mate.id}}</td>
+                            <td>{{mate.username}}</td>
+                            <td style="color: #1c7430">已添加</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="text-align: center">
+                    <button class="layui-btn" style="margin-bottom: 30px" @click="commitInfo">提交报名</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">查找结果</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="addGame">
+                    <div class="modal-body">
+                        <table class="layui-table">
+                            <colgroup>
+                                <col width="150">
+                                <col width="150">
+                                <col width="200">
+                                <col>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>姓名</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="mate in res">
+                                <td>{{mate.id}}</td>
+                                <td>{{mate.username}}</td>
+                                <td>
+                                    <button class="layui-btn" @click="addMate(mate)">添加队友</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<div class="footer">
+    <p>
+        <span>&copy; 2018</span>
+        <span><a href="http://www.layui.com" target="_blank">layui.com</a></span>
+        <span>MIT license</span>
+    </p>
+    <p><span>人生就是一场修行</span></p>
+
+</div>
+
+<script src="/static/js/layui.js"></script>
+<script src="/static/js/vue.js"></script>
+<script src="/static/js/axios.min.js"></script>
+<script src="/static/js/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="/static/js/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="/static/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            user: {},
+            game: {},
+            tname: "",
+            select: "0",
+            find: "",
+            res: [],
+            mates: [],
+            indx: "",
+        },
+        mounted: function () {
+            var that = this;
+            var gid = this.getParam("gid");
+            var url = "/game/queryGame?gid="+gid;
+            axios.get(url)
+            .then(function(response){
+                that.game = response.data.data.game;
+                that.user = response.data.data.user;
+            });
+        },
+        methods: {
+            findMate() {
+                console.log()
+                var url;
+                var that = this;
+                if (this.select == 0) {
+                    url = "/user/findByName?username=" + this.find;
+                } else {
+                    url = "/user/findById?id=" + this.find;
+                }
+                console.log(url);
+                axios.get(url)
+                    .then(function (response) {
+                        console.log(response);
+                        if (that.select == 0) {
+                            that.res = response.data.data;
+                        } else {
+                            that.res.push(response.data.data);
+                        }
+                    })
+            },
+            addMate(mate) {
+                var flag = false;
+                if (mate.id == this.user.id) {
+                    alert("不用添加自己");
+                    return ;
+                }
+                this.mates.forEach(item => {
+                    if (mate.id == item.id) {
+                        flag = true;
+                        return;
+                    }
+                })
+                if (flag) {
+                    alert("请勿重复添加");
+                } else {
+                    this.mates.push(mate);
+                }
+                $('#exampleModal').modal('hide');
+            },
+            getParam(variable)
+            {
+                var query = window.location.search.substring(1);
+                var vars = query.split("&");
+                for (var i=0;i<vars.length;i++) {
+                    var pair = vars[i].split("=");
+                    if(pair[0] == variable){return pair[1];}
+                }
+                return(false);
+            },
+            commitInfo() {
+                let formData = new FormData();
+                var ids = new Array();
+                ids[0] = this.user.id;
+                for (i = 1; i <= this.mates.length; i++) {
+                    ids[i] = this.mates[i-1].id;
+                }
+                var doc = "/static";
+                var param = "captain="+this.user.username
+                +"&gid="+this.game.id
+                +"&uid="+this.user.id
+                +"&name="+this.tname
+                +"&doc="+doc
+                +"&ids="+ids
+                +"&gameName="+this.game.name;
+                axios.post("/regist/add", param )
+                .then(function(response){
+                   console.log(response);
+                   if (response.data.success) {
+                       alert("报名成功");
+                   } else {
+                       alert(response.data.errorMessage);
+                   }
+                });
+            }
+        }
+    })
+</script>
+</body>
+</html>

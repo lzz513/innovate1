@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mju.lzz.mapper.GameDOMapper">
+    <sql id="Base_Column_list">
+        id, name, start_time, end_time, creator_id, description, creater_time, photo, game_name
+    </sql>
+
+    <sql id="Base_Where">
+        <where>
+            <trim prefixOverrides="and">
+                <if test="id != null">
+                    and id = #{id, jdbcType=INTEGER}
+                </if>
+                <if test="name != null and name != ''">
+                    and name = #{name, jdbcType=VARCHAR}
+                </if>
+                <if test="startTime != null">
+                    and start_time = #{startTime, jdbcType=TIMESTAMP}
+                </if>
+                <if test="endTime != null">
+                    and end_time = #{endTime, jdbcType=TIMESTAMP}
+                </if>
+                <if test="description != null and description != ''">
+                    and description = #{description, jdbcType=VARCHAR}
+                </if>
+                <if test="creatorId != null">
+                    and creator_id = #{creatorId, jdbcType=INTEGER}
+                </if>
+                <if test="createrTime != null">
+                    and creater_time = #{createrTime, jdbcType=TIMESTAMP}
+                </if>
+                <if test="photo != null and photo !=''">
+                    and photo = #{photo, jdbcType=VARCHAR}
+                </if>
+            </trim>
+        </where>
+    </sql>
+
+    <resultMap id="game" type="mju.lzz.beans.Game">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="description" column="description"/>
+        <result property="createrTime" column="creater_time"/>
+        <result property="photo" column="photo"/>
+        <result property="gameName" column="game_name"/>
+    </resultMap>
+
+
+    <select id="query" parameterType="mju.lzz.beans.Game">
+        select
+        <include refid="Base_Column_list"/>
+        from games
+        <include refid="Base_Where"/>
+    </select>
+
+    <select id="queryAll" resultMap="game">
+        select
+        <include refid="Base_Column_list"/>
+        from games
+    </select>
+
+    <select id="queryById" parameterType="long" resultMap="game">
+        select
+        <include refid="Base_Column_list"/>
+        from games
+        where id = #{id}
+    </select>
+
+    <insert id="saveGame" parameterType="mju.lzz.beans.Game">
+        insert into games
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null and name != ''">
+                name,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="description != null and description != ''">
+                description,
+            </if>
+            <if test="creatorId != null">
+                creator_id,
+            </if>
+            <if test="createrTime != null">
+                creater_time,
+            </if>
+            <if test="photo != null and photo !=''">
+                photo,
+            </if>
+            <if test="gameName != null and gameName != ''">
+                game_name,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id, jdbcType=INTEGER},
+            </if>
+            <if test="name != null and name != ''">
+                #{name, jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                #{startTime, jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime, jdbcType=TIMESTAMP},
+            </if>
+            <if test="description != null and description != ''">
+                #{description, jdbcType=VARCHAR},
+            </if>
+            <if test="creatorId != null">
+                #{creatorId, jdbcType=INTEGER},
+            </if>
+            <if test="createrTime != null">
+                #{createrTime, jdbcType=TIMESTAMP},
+            </if>
+            <if test="photo != null and photo !=''">
+                #{photo,jdbcType=VARCHAR}
+            </if>
+            <if test="gameName != null and gameName != ''">
+                #{gameName, jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+
+</mapper>
