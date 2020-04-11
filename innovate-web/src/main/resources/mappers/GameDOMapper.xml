@@ -126,7 +126,7 @@
             <if test="photo != null and photo !=''">
                 #{photo,jdbcType=VARCHAR}
             </if>
-            <if test="gameNam != null and gameName != ''">
+            <if test="gameName != null and gameName != ''">
                 #{gameName, jdbcType=VARCHAR}
             </if>
         </trim>
