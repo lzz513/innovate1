@@ -1,6 +1,7 @@
 package mju.lzz.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import mju.lzz.annoation.LoginFilter;
 import mju.lzz.beans.User;
 import mju.lzz.exception.InnovateCommonException;
 import mju.lzz.manager.UserManager;
@@ -39,6 +40,7 @@ public class UserController {
 	@Autowired
 	private HostHolder holder;
 
+	@LoginFilter(LoginFilter.NOT_LOGIN)
 	@RequestMapping(value = "regist", method = RequestMethod.POST)
 	public CommonResult<String> regist(@Validated @RequestBody User user, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
@@ -66,6 +68,7 @@ public class UserController {
 	}
 
 	@ResponseBody
+	@LoginFilter(LoginFilter.NOT_LOGIN)
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public CommonResult<User> login(@RequestBody Map<String, Object> requestMap, HttpServletRequest request) {
 		User daoUser = null;

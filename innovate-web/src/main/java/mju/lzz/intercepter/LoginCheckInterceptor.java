@@ -1,6 +1,7 @@
 package mju.lzz.intercepter;
 
 import lombok.extern.slf4j.Slf4j;
+import mju.lzz.annoation.LoginFilter;
 import mju.lzz.beans.User;
 import mju.lzz.utils.HostHolder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +20,27 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 
+	public static final int NOT_LOGIN = 0;
+	public static final int NEED_LOGIN = 1;
+	public static final int ADMIN_LOGIN = 2;
+
 	@Autowired
 	private HostHolder holder;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		User user = null;
 		if (request.getSession().getAttribute("user") != null) {
-			User user = (User) request.getSession().getAttribute("user");
+			user =  (User) request.getSession().getAttribute("user");
 			holder.set(user);
 		}
 		if (handler instanceof HandlerMethod) {
 			HandlerMethod hm = (HandlerMethod) handler;
+			LoginFilter loginFilter = hm.getMethodAnnotation(LoginFilter.class);
+			if (loginFilter == null && user == null) {
+				response.sendRedirect("/pages/login.html");
+				return false;
+			}
 		}
 		return true;
 	}

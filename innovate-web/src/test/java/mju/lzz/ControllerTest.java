@@ -2,6 +2,7 @@ package mju.lzz;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import mju.lzz.utils.Tire;
 import org.junit.Test;
 
 import java.awt.*;
@@ -29,9 +30,9 @@ public class ControllerTest {
 
 
 	public static void main(String[] args) throws InterruptedException {
-		HashMap<String , String> mp = new HashMap<>();
-		mp.put("a", null);
-		System.out.println(mp.containsKey("a"));
+		Tire tire = new Tire("/stensitive.txt");
+		String line = "asdbtx";
+		System.out.println(tire.replace(line));
 	}
 
 }
