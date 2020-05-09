@@ -15,5 +15,9 @@ public interface GameManager {
 	List<Game> queryAll();
 	List<Game> query(Game game);
 	Game queryById(long id);
+	List<Game> queryOver();
+	List<Game> queryWait();
+	List<Game> queryNow();
+	boolean updateGame(Game game);
 //	List<Game> queryNameLike(String name);
 }

@@ -14,7 +14,7 @@ import java.util.List;
 public interface UserManager {
 	User login(User user);
 	boolean regist(User user);
-	boolean updateInfo(User user);
+	int updateInfo(User user);
 	List<User> query(User query);
 	List<User> queryNameLike(String name);
 }

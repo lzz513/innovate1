@@ -85,4 +85,9 @@
             </list>
         </constructor-arg>
     </bean>
+
+    <bean id="commentFilter" class="mju.lzz.utils.Tire">
+        <constructor-arg name="file" value="/stensitive.txt"></constructor-arg>
+    </bean>
+
 </beans>

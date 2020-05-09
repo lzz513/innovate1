@@ -7,6 +7,7 @@ import mju.lzz.exception.InnovateCommonException;
 import mju.lzz.manager.UserManager;
 import mju.lzz.model.CommonResult;
 import mju.lzz.request.UserDataRequest;
+import mju.lzz.utils.FileUtils;
 import mju.lzz.utils.HostHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -122,6 +123,44 @@ public class UserController {
 	public CommonResult<User> getMyself() {
 		User user = holder.get();
 		return CommonResult.successResult(user);
+	}
+
+	@PostMapping("updateHeadPictrue")
+	public CommonResult<Boolean> updateHeadPictrue(@RequestParam("file") MultipartFile file) {
+		String path = FileUtils.saveFile(file);
+		if (path != null) {
+			User user = holder.get();
+			User updateUser = User.builder().id(user.getId()).headPath(path).build();
+			try {
+				int res = userManager.updateInfo(updateUser);
+				if (res == 1) {
+					user.setHeadPath(path);
+					return CommonResult.successResult(true);
+				}
+			} catch (Exception e) {
+				log.info("e={}", e);
+			}
+		}
+		return CommonResult.errorResult(0, "fail", false);
+	}
+
+	@LoginFilter(LoginFilter.NOT_LOGIN)
+	@PostMapping("adminLogin")
+	public CommonResult<Boolean> adminLogin(@RequestBody Map<String, Object> map,HttpServletRequest request){
+		String username = map.get("username").toString();
+		String password = map.get("password").toString();
+		if (!StringUtils.isEmpty(username) && !StringUtils.isEmpty(password)) {
+			try {
+				User admin = userManager.query(User.builder().username("admin").build()).get(0);
+				if (username.equals(admin.getUsername()) && password.equals(admin.getPassword())) {
+					request.getSession().setAttribute("user", admin);
+					return CommonResult.successResult(true);
+				}
+			} catch (Exception e) {
+				log.info("e={}", e);
+			}
+		}
+		return CommonResult.successResult(false);
 	}
 
 }

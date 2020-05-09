@@ -63,6 +63,22 @@
         from games
     </select>
 
+    <select id="queryOver" resultMap="game">
+        select * from games
+        where now() > end_time
+    </select>
+
+    <select id="queryWait" resultMap="game">
+        select * from games
+        where start_time > now()
+    </select>
+
+    <select id="queryNow" resultMap="game">
+        select * from games
+        where now() > start_time
+        and end_time > now()
+    </select>
+
     <select id="queryById" parameterType="long" resultMap="game">
         select
         <include refid="Base_Column_list"/>
@@ -131,5 +147,14 @@
             </if>
         </trim>
     </insert>
+    
+    <update id="updateGame" parameterType="mju.lzz.beans.Game">
+        update games
+        set start_time = #{startTime, jdbcType=TIMESTAMP}
+        and end_time = #{endTime, jdbcType=TIMESTAMP}
+        and description = #{description, jdbcType=VARCHAR}
+        and photo = #{photo, jdbcType=VARCHAR}
+        and game_name = #{gameName, jdbcType=VARCHAR}
+    </update>
 
 </mapper>

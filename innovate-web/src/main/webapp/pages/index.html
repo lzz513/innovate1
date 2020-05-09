@@ -13,7 +13,7 @@
         <h1 class="logo pull-left">
             <a href="index.html">
                 <img src="/static/img/logo.png" alt="" class="logo-img">
-                <img src="/static/img/logo-text.png" alt="" class="logo-text">
+                <img src="/static/img/log.png" width="75px" height="36" alt="" class="logo-text">
             </a>
         </h1>
         <form class="layui-form blog-seach pull-left" action="">
@@ -50,7 +50,7 @@
     <div class="container" id="app">
         <div class="contar-wrap">
             <h4 class="item-title">
-                <p><i class="layui-icon">&#xe645;</i>公告：<span>欢迎来到：“互联网＋”大学生创新创业大赛</span></p>
+                <p><i class="layui-icon">&#xe645;</i>公告：<span>{{signContent}}</span></p>
             </h4>
             <div class="item" v-for="game in games">
                 <div class="item-box  layer-photos-demo1 layer-photos-demo">
@@ -88,7 +88,8 @@
         data: {
             games:[],
             username:"",
-            uid:""
+            uid:"",
+            signContent:""
         },
         beforeCreate: function (){
             var that = this;
@@ -98,6 +99,7 @@
                 that.games = response.data.data.gameList;
                 that.username = response.data.data.user.username;
                 that.uid = response.data.data.user.id;
+                that.signContent = response.data.data.signContent;
                 console.log(that.username);
             });
         },

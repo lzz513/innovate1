@@ -116,4 +116,11 @@
             </if>
         </trim>
     </insert>
+
+    <update id="updateInfo" parameterType="mju.lzz.beans.User">
+        update users
+        set head_path=#{headPath, jdbcType=VARCHAR}
+        where id = #{id, jdbcType=INTEGER}
+    </update>
+
 </mapper>

@@ -8,4 +8,6 @@ public interface UserDOMapper {
 	List<User> query(User queryDO);
 	List<User> queryByName(String name);
 	int saveUser(User user);
+
+	int updateInfo(User path);
 }

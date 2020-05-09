@@ -2,6 +2,7 @@ package mju.lzz.response;
 
 import lombok.Data;
 import mju.lzz.beans.Game;
+import mju.lzz.beans.Sign;
 import mju.lzz.beans.User;
 
 import java.util.List;
@@ -17,5 +18,5 @@ public class GameListResponse {
 
 	List<Game> gameList;
 	User user;
-
+	String signContent;
 }

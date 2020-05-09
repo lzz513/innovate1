@@ -18,7 +18,8 @@
     <link rel="stylesheet" href="/static/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
-<body class="layui-layout-body">
+<div class="layui-layout-body">
+    <div id="gameList">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
         <div class="layui-logo">大学生创新创业大赛后台</div>
@@ -36,19 +37,6 @@
                 </dl>
             </li>
             <span class="layui-nav-bar"></span></ul>
-        <ul class="layui-nav layui-layout-right">
-            <li class="layui-nav-item">
-                <a href="javascript:;">
-                    <img src="./layout 后台大布局 - Layui_files/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" class="layui-nav-img">
-                    贤心
-                    <span class="layui-nav-more"></span></a>
-                <dl class="layui-nav-child">
-                    <dd><a href="https://www.layui.com/demo/layuiAdmin.html">基本资料</a></dd>
-                    <dd><a href="https://www.layui.com/demo/layuiAdmin.html">安全设置</a></dd>
-                </dl>
-            </li>
-            <li class="layui-nav-item"><a href="https://www.layui.com/demo/layuiAdmin.html">退了</a></li>
-            <span class="layui-nav-bar"></span></ul>
     </div>
 
     <div class="layui-side layui-bg-black">
@@ -56,27 +44,35 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
                 <li class="layui-nav-item">
-                    <a class="" href="javascript:;">全部活动</a>
+                    <a class="" href="javascript:;" @click="gameList()">全部活动</a>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="javascript:;">正在报名</a>
+                    <a href="javascript:;" @click="queryWait()">未开始</a>
                 </li>
-                <li class="layui-nav-item"><a href="https://www.layui.com/demo/layuiAdmin.html">已结束报名</a></li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;" @click="queryNow()">正在报名</a>
+                </li>
+                <li class="layui-nav-item"><a href="javascript:;" @click="queryOver()">已结束报名</a></li>
             </ul>
         </div>
     </div>
 
     <div class="layui-body">
         <div class="layui-row layui-col-space10">
-            <div class="layui-col-md8">
+            <div class="layui-col-md4">
                 <div class="layui-input-inline">
                     <input style="margin-top: 10px; margin-left: 10px" type="text" name="username" lay-verify="required"
                            placeholder="请输入" autocomplete="off" class="layui-input">
                 </div>
                 <button style="margin-top: 10px; margin-left: 10px" type="button" class="layui-btn">查找赛事</button>
             </div>
-            <div class="layui-col-md4">
-                <button data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"
+            <div class="layui-col-md8">
+                <div class="layui-input-inline">
+                    <input style="margin-top: 10px; margin-left: 10px; float: left" type="text" id="sign" v-model="sign" name="username" lay-verify="required"
+                           placeholder="请输入" autocomplete="off" class="layui-input">
+                </div>
+                <button @click="addSign()" style="margin-top: 10px; margin-left: 10px; float: left" type="button" class="layui-btn" >发布告示</button>
+                <button data-toggle="modal" data-target="#exampleModal1" data-whatever="@mdo"
                         style="float: right; margin-right: 10px; margin-top: 10px" type="button"
                         class="layui-btn layui-btn-normal ">创建新赛事
                 </button>
@@ -97,19 +93,101 @@
                 <th></th>
             </tr>
             </thead>
-            <tbody id="gameList">
+            <tbody >
             <tr v-for="item in games">
                 <td>{{item.name}}</td>
                 <td>{{item.startTime}}</td>
                 <td>{{item.endTime}}</td>
                 <td>
-                    <button class="layui-btn">查看赛事详情</button>
+                    <button @click="update(item)" class="layui-btn" data-toggle="modal" data-target="#exampleModal1" data-whatever="@mdo">查看赛事详情</button>
+                    <button @click="registList(item)" class="layui-btn" data-toggle="modal" data-target="#exampleModal2" data-whatever="@mdo">查看赛事详情</button>
                 </td>
+
             </tr>
+
             </tbody>
         </table>
 
     </div>
+</div>
+        <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel2">报名情况</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div >
+                        <div class="modal-body">
+                            <table class="layui-table" >
+
+                                <thead>
+                                <tr>
+                                    <th>活动名</th>
+                                    <th>队伍名</th>
+                                    <th>队长</th>
+                                    <th>报名状态</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="regist in regists">
+                                    <td>{{regist.gameName}}</td>
+                                    <td>{{regist.name}}</td>
+                                    <td>{{regist.captain}}</td>
+                                    <td>{{regist.status}}</td>
+
+                                <tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">赛事详情</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div >
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-form-label">大赛名称</label>
+                        <input type="text" readonly class="form-control" v-model="game.name">
+                    </div>
+                    <div class="form-group">
+                        <label for="startTime" class="col-form-label">开始时间</label>
+                        <input type="text" readonly class="form-control" id="startTime1" v-model="game.startTime"
+                               placeholder="yyyy-mm-dd">
+                    </div>
+                    <div class="form-group">
+                        <label for="endTime" class="col-form-label">结束时间</label>
+                        <input type="text" readonly placeholder="yyyy-mm-dd" class="form-control" v-model="game.endTime" id="endTime1">
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-form-label">描述赛事要求（500字内）</label>
+                        <textarea readonly class="form-control" id="description1" v-model="game.description"></textarea>
+                    </div>
+                    <img :src="game.photo" height="100%" width="100%" alt="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
@@ -230,7 +308,10 @@
     var gameList = new Vue({
         el: "#gameList",
         data: {
-            games: []
+            games: [],
+            regists: [],
+            game:{},
+            sign:""
         },
         formatDate: function (time) {
         },
@@ -238,11 +319,69 @@
             var that = this;
             axios.get('/game/gameList')
                 .then(function (response) {
+                    console.log(response)
                     that.games = response.data.data.gameList;
                     console.log(response);
                 })
         },
         methods: {
+            addSign(){
+                var that = this;
+                var url = "/sign/addSign";
+                var param = "content="+this.sign;
+                axios.post(url, param)
+                .then(function (response) {
+                    if (response.data.data == true) {
+                        that.sign = "";
+                        alert("sucess");
+                    } else {
+                        alert("fail")
+                    }
+
+                })
+            },
+            update(game) {
+                this.game = game;
+                console.log(game);
+            },
+            registList(item) {
+                var that = this;
+                var url = '/regist/queryByGid?gid='+item.id;
+                console.log(url)
+                axios.get(url)
+                    .then(function (response) {
+                        console.log(response)
+                        that.regists = response.data.data;
+                    })
+            },
+            queryNow(){
+                var that = this;
+                axios.get('/game/queryNow')
+                    .then(function (response) {
+                        that.games = response.data.data.gameList;
+                    });
+            },
+            queryOver(){
+                var that = this;
+                axios.get('/game/queryOver')
+                    .then(function (response) {
+                        that.games = response.data.data.gameList;
+                    });
+            },
+            gameList(){
+                var that = this;
+                axios.get('/game/gameList')
+                    .then(function (response) {
+                        that.games = response.data.data.gameList;
+                    });
+            },
+            queryWait(){
+                var that = this;
+                axios.get('/game/queryWait')
+                    .then(function (response) {
+                        that.games = response.data.data.gameList;
+                    });
+            }
         }
     })
 

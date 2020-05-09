@@ -23,6 +23,8 @@ public class CommentManagerImpl implements CommentManager {
 	@Autowired
 	private CommentDOMapper commentDOMapper;
 
+
+
 	@Override
 	public List<Comment> queryByGid(Long gid) {
 		if (gid != null) {

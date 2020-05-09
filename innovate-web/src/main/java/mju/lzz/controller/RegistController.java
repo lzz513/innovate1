@@ -72,6 +72,13 @@ public class RegistController {
 		return CommonResult.errorResult("查询失败", null);
 	}
 
+	@RequestMapping(value = "queryByGid", method = RequestMethod.GET)
+	public CommonResult<List<Regist>> gameRegist(Long gid) {
+		List<RegistVO> registVOList = new ArrayList<>();
+		List<Regist> registList = registManager.queryByGid(gid);
+		return CommonResult.successResult(registList);
+	}
+
 	private List<RegistVO> transforVO(List<Regist> list) {
 		List<RegistVO> registVOList = new ArrayList<>();
 		for (Regist regist:list){

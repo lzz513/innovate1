@@ -31,7 +31,7 @@ public class ControllerTest {
 
 	public static void main(String[] args) throws InterruptedException {
 		Tire tire = new Tire("/stensitive.txt");
-		String line = "asdbtx";
+		String line = "asd";
 		System.out.println(tire.replace(line));
 	}
 

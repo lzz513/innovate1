@@ -53,8 +53,8 @@ public class UserManagerImpl implements UserManager {
 		throw new InnovateCommonException(ErrorCodeEnum.LOGIN_INFO_ERROR);
 	}
 
-	public boolean updateInfo(User user) {
-		return true;
+	public int updateInfo(User user) {
+		return userMapper.updateInfo(user);
 	}
 
 	@Override

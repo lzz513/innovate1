@@ -9,6 +9,7 @@ import mju.lzz.manager.UserManager;
 import mju.lzz.model.CommonResult;
 import mju.lzz.utils.BindingResultUtils;
 import mju.lzz.utils.HostHolder;
+import mju.lzz.utils.Tire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -42,6 +43,9 @@ public class CommentController {
 	@Autowired
 	private HostHolder holder;
 
+	@Autowired
+	Tire commentFilter;
+
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	public CommonResult<CommentVO> save(@Validated Comment comment, BindingResult bindingResult) {
 		String errorMessage = BindingResultUtils.getDefaultMessage(bindingResult);
@@ -51,6 +55,7 @@ public class CommentController {
 			comment.setUid(holder.get().getId());
 			comment.setUsername(holder.get().getUsername());
 			comment.setToId(0L);
+			comment.setContent(commentFilter.replace(comment.getContent()));
 			CommentVO vo = commentManager.saveComment(comment);
 			if (vo != null) {
 				vo.setHeadPath(holder.get().getHeadPath());

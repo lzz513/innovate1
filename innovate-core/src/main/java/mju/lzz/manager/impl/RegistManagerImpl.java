@@ -95,17 +95,12 @@ public class RegistManagerImpl implements RegistManager {
 	}
 
 	@Override
-	public List<RegistInfo> queryByRid(Long gid) {
+	public List<Regist> queryByGid(Long gid) {
 		List<RegistInfo> list = new ArrayList<RegistInfo>();
 		List<Regist> regists = registDOMapper.query(Regist.builder().gid(gid).build());
-		for (Regist regist:regists) {
-			RegistInfo info = new RegistInfo();
-			info.setRegist(regist);
-			fillItems(info, regist.getId());
-			list.add(info);
-		}
-		return list;
+		return regists;
 	}
+
 
 	private void fillItems(RegistInfo info, Long id) {
 		List<RegistItem> registItems = registItemDOMapper.queryByGid(id);
